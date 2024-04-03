@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: tasks_passwd
+      POSTGRES_DB: tasks_db
+    networks:
+      - yureyko
+  test-db:
+    image: postgres:13
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test_passwd
+      POSTGRES_DB: tasks_db_test
+    networks:
+      - yureyko
+networks:
+  yureyko:
