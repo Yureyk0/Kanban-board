@@ -23,7 +23,7 @@ export class ListsService {
 
   findAllList(): Promise<List[]> {
     return this.listRepository.find({
-      relations: { tasks: { history: true } },
+      relations: { tasks: { audit: true } },
       order: { orderIndex: 'ASC' },
     });
   }

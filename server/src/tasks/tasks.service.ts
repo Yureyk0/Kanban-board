@@ -15,6 +15,7 @@ export class TasksService {
   async createTask(dto: CreateTaskDto) {
     try {
       const task = this.taskRepository.create(dto);
+
       const savedTask = await this.taskRepository.save(task);
       this.logger.log(`Created task with ID ${savedTask.id}`);
       return savedTask;
@@ -25,16 +26,21 @@ export class TasksService {
   }
 
   async findAllTasks() {
-    return await this.taskRepository.find({ relations: { history: true } });
+    return await this.taskRepository.find({ relations: { audit: true } });
   }
 
   async updateTask(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
     try {
-      await this.taskRepository.update(id, updateTaskDto);
-      const updatedTask = this.taskRepository.findOne({ where: { id } });
-      if (!updatedTask) {
+      const task = await this.taskRepository.findOne({
+        where: { id },
+        relations: { audit: false },
+      });
+
+      if (!task) {
         throw new NotFoundException(`Task with ID ${id} not found`);
       }
+      this.taskRepository.merge(task, updateTaskDto);
+      const updatedTask = await this.taskRepository.save(task);
       this.logger.log(`Updated task with ID ${id}`);
       return updatedTask;
     } catch (error) {
@@ -45,13 +51,19 @@ export class TasksService {
     }
   }
 
-  async removeTask(id: string): Promise<void> {
+  async removeTask(id: string): Promise<Task> {
     try {
-      const result = await this.taskRepository.delete(id);
-      if (result.affected === 0) {
+      const task = await this.taskRepository.findOne({
+        where: { id },
+        relations: { audit: false },
+      });
+      if (!task) {
         throw new NotFoundException(`Task with ID ${id} not found`);
       }
+      await this.taskRepository.remove(task);
+
       this.logger.log(`Deleted task with ID ${id}`);
+      return task;
     } catch (error) {
       this.logger.error(
         `Failed to delete task with ID ${id}: ${error.message}`,
@@ -61,7 +73,10 @@ export class TasksService {
   }
   async findOneTask(id: string): Promise<Task> {
     try {
-      const task = await this.taskRepository.findOne({ where: { id } });
+      const task = await this.taskRepository.findOne({
+        where: { id },
+        relations: { audit: true },
+      });
       if (!task) {
         throw new NotFoundException(`Task with ID ${id} not found`);
       }

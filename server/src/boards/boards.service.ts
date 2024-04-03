@@ -22,7 +22,7 @@ export class BoardsService {
 
   findAll() {
     return this.boardRepository.find({
-      relations: { lists: { tasks: { history: true } } },
+      relations: { lists: { tasks: { audit: true } } },
       order: { orderIndex: 'ASC' },
     });
   }
