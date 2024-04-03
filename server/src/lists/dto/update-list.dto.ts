@@ -5,4 +5,9 @@ export class UpdateListDto {
   @MinLength(2, { message: 'Name must have atleast 2 characters.' })
   @IsNotEmpty()
   nameList: string;
+
+  @IsString()
+  @MinLength(2, { message: 'Name must have atleast 2 characters.' })
+  @IsNotEmpty()
+  boardId: string;
 }

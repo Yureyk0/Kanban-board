@@ -12,10 +12,11 @@ export class ListsService {
     @InjectRepository(List) private readonly listRepository: Repository<List>,
   ) {}
 
-  createList(createUserDto: CreateListDto): Promise<List> {
+  createList(createListDto: CreateListDto): Promise<List> {
     const list: List = new List();
     list.orderIndex = new Date().getTime();
-    list.nameList = createUserDto.nameList;
+    list.nameList = createListDto.nameList;
+    list.boardId = createListDto.boardId;
     this.logger.log(`Created list with ID ${list.id}`);
     return this.listRepository.save(list);
   }

@@ -9,7 +9,10 @@ import { Task } from './tasks/entities/task.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { History } from './history/entities/history.entity';
 import { HistoryModule } from './history/history.module';
+import { BoardsModule } from './boards/boards.module';
 import * as cors from 'cors';
+import { Board } from './boards/entities/board.entity';
+import { AuditModule } from './audit/audit.module';
 
 @Module({
   imports: [
@@ -26,13 +29,15 @@ import * as cors from 'cors';
         username: config.get('POSTGRES_USER'),
         password: config.get('POSTGRES_PASSWORD'),
         database: config.get('POSTGRES_DATABASE'),
-        entities: [List, Task, History],
+        entities: [List, Task, History, Board],
         synchronize: true,
       }),
     }),
     ListsModule,
     TasksModule,
     HistoryModule,
+    BoardsModule,
+    AuditModule,
   ],
   controllers: [AppController],
   providers: [AppService],

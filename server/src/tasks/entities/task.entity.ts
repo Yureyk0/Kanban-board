@@ -10,6 +10,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { List } from '../../lists/entities/list.entity';
+import { History } from '../../history/entities/history.entity';
+import { AuditLog } from '../../audit/entities/audit-log.entity'; // Import AuditLog entity
 
 @Entity({ name: 'tasks' })
 export class Task {
