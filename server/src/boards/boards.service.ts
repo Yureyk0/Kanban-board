@@ -37,7 +37,7 @@ export class BoardsService {
     return this.boardRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const result = await this.boardRepository.delete(id);
     if (result.affected === 0) {
       this.logger.error(`List with ID ${id} not found`);
