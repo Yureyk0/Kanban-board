@@ -1,4 +1,4 @@
-import { History } from "./History";
+import { Audit } from "./Audit";
 
 export type Task = {
   id: string;
@@ -6,8 +6,8 @@ export type Task = {
   descriptionTask: string;
   priority: string;
   listId: string;
-  dueDate?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-  history?: History[];
+  dueDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  audit: Audit[];
 };

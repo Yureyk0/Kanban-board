@@ -52,7 +52,6 @@ export class TaskSubscriber implements EntitySubscriberInterface<Task> {
   async beforeRemove(event: RemoveEvent<Task>) {
     const newState = this.mapObject(event.entity as Task);
 
-    console.log('delete', event.entity, event.entityId);
     this.auditService.create({
       entityId: null,
       oldState: null,

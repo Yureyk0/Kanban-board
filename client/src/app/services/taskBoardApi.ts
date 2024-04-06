@@ -1,25 +1,74 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { List } from "../../types/List";
 import { Task } from "../../types/Task";
-import { History } from "../../types/History";
+import { Board } from "../../types/Board";
 
 export const taskBoardApi = createApi({
   reducerPath: "taskBoaedApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_CLIENT_PROD || "http://localhost:3000",
   }),
-  tagTypes: ["Lists", "History"],
+  tagTypes: ["Lists", "BoardNames", "OneBoard"],
   endpoints: (builder) => ({
-    getAllLists: builder.query<List[], void>({
-      query: () => "lists",
+    getAllBoards: builder.query<Partial<Board>[], void>({
+      query: () => "boards",
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Lists" as const, id })),
-              { type: "Lists", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "BoardNames" as const, id })),
+              { type: "BoardNames", id: "BOARD_NAMES" },
             ]
-          : [{ type: "Lists", id: "LIST" }],
+          : [{ type: "BoardNames", id: "BOARD_NAMES" }],
     }),
+    getOneBoard: builder.query<Board, string>({
+      query: (id) => {
+        return {
+          url: `boards/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: () => [{ type: "OneBoard", id: "ONE_BOARD" }],
+    }),
+    updateBoard: builder.mutation<Board, Partial<Board>>({
+      query(data) {
+        const { id, nameBoard } = data;
+        return {
+          url: `boards/${id}`,
+          method: "PATCH",
+          body: { nameBoard },
+        };
+      },
+      invalidatesTags: ["BoardNames", "OneBoard"],
+    }),
+    deleteBoard: builder.mutation<{ success: boolean; id: string }, string>({
+      query(id) {
+        return {
+          url: `boards/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["BoardNames", "OneBoard"],
+    }),
+    addBoard: builder.mutation<Board, Partial<Board>>({
+      query(body) {
+        return {
+          url: `boards`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["BoardNames"],
+    }),
+    // getAllLists: builder.query<List[], void>({
+    //   query: () => "lists",
+    //   providesTags: (result) =>
+    //     result
+    //       ? [
+    //           ...result.map(({ id }) => ({ type: "Lists" as const, id })),
+    //           { type: "Lists", id: "LIST" },
+    //         ]
+    //       : [{ type: "Lists", id: "LIST" }],
+    // }),
 
     addList: builder.mutation<List, Partial<List>>({
       query(body) {
@@ -29,7 +78,7 @@ export const taskBoardApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     updateList: builder.mutation<List, Partial<List>>({
       query(data) {
@@ -40,7 +89,7 @@ export const taskBoardApi = createApi({
           body: { nameList },
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     deleteList: builder.mutation<{ success: boolean; id: string }, string>({
       query(id) {
@@ -49,7 +98,7 @@ export const taskBoardApi = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     updateTask: builder.mutation<Task, Partial<Task>>({
       query(data) {
@@ -60,7 +109,7 @@ export const taskBoardApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     addTask: builder.mutation<Task, Partial<Task>>({
       query(body) {
@@ -70,7 +119,7 @@ export const taskBoardApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     deleteTask: builder.mutation<{ success: boolean; id: string }, string>({
       query(id) {
@@ -79,7 +128,7 @@ export const taskBoardApi = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ["OneBoard"],
     }),
     getOneTask: builder.query<Task, string>({
       query: (id) => {
@@ -89,31 +138,6 @@ export const taskBoardApi = createApi({
         };
       },
     }),
-    getHistory: builder.query<History[], void>({
-      query: () => {
-        return {
-          url: `history`,
-          method: "GET",
-        };
-      },
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({ type: "History" as const, id })),
-              { type: "History", id: "History" },
-            ]
-          : [{ type: "History", id: "History" }],
-    }),
-    addHistory: builder.mutation<History, Partial<History>>({
-      query(body) {
-        return {
-          url: `history`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["Lists", "History"],
-    }),
   }),
 });
 
@@ -121,7 +145,6 @@ export const taskBoardApi = createApi({
 // auto-generated based on the defined endpoints
 export const {
   endpoints,
-  useGetAllListsQuery,
   useAddListMutation,
   useUpdateListMutation,
   useDeleteListMutation,
@@ -129,6 +152,9 @@ export const {
   useAddTaskMutation,
   useDeleteTaskMutation,
   useGetOneTaskQuery,
-  useAddHistoryMutation,
-  useGetHistoryQuery,
+  useGetAllBoardsQuery,
+  useGetOneBoardQuery,
+  useUpdateBoardMutation,
+  useDeleteBoardMutation,
+  useAddBoardMutation,
 } = taskBoardApi;

@@ -1,11 +1,31 @@
+import { useGetOneBoardQuery } from "../app/services/taskBoardApi";
 import { Header } from "./Header";
 import { TaskBoard } from "./TaskBoard";
 
-export const TaskBoardWrapper = () => {
+interface TaskBoardWrapperProps {
+  activeBoard: string;
+}
+
+export const TaskBoardWrapper = ({ activeBoard }: TaskBoardWrapperProps) => {
+  const { data: board, isLoading } = useGetOneBoardQuery(activeBoard);
+
+  if (isLoading || !board)
+    return (
+      <div className="flex justify-center items-center text-4xl w-full">
+        <p>Select or create a board!</p>
+      </div>
+    );
+
+  const { nameBoard, lists } = board;
+
   return (
     <div className="w-3/4 h-screen">
-      <Header />
-      <TaskBoard />
+      <Header
+        nameBoard={nameBoard}
+        activeBoard={activeBoard}
+        listsLength={lists.length}
+      />
+      <TaskBoard lists={lists} />
     </div>
   );
 };
