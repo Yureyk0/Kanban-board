@@ -20,15 +20,23 @@ export class BoardsService {
     return this.boardRepository.save(board);
   }
 
-  findAll() {
-    return this.boardRepository.find({
-      relations: { lists: { tasks: { audit: true } } },
-      order: { orderIndex: 'ASC' },
+  async findAll() {
+    const boards = await this.boardRepository.find({
+      order: { lists: { orderIndex: 'ASC' } },
     });
+
+    return boards.map((board) => ({
+      id: board.id,
+      orderIndex: board.orderIndex,
+      nameBoard: board.nameBoard,
+    }));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  findOne(id: string) {
+    return this.boardRepository.findOne({
+      where: { id },
+      order: { lists: { orderIndex: 'ASC' } },
+    });
   }
 
   async update(id: string, updateBoardDto: UpdateBoardDto) {
