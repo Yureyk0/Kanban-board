@@ -18,14 +18,22 @@ export const TaskBoardWrapper = ({ activeBoard }: TaskBoardWrapperProps) => {
 
   const { nameBoard, lists } = board;
 
+  const listNames = lists.map((list) => {
+    return {
+      value: list.id,
+      text: list.nameList,
+    };
+  });
+
   return (
     <div className="w-3/4 h-screen">
       <Header
         nameBoard={nameBoard}
         activeBoard={activeBoard}
         listsLength={lists.length}
+        listNames={listNames}
       />
-      <TaskBoard lists={lists} />
+      <TaskBoard lists={lists} listNames={listNames} />
     </div>
   );
 };

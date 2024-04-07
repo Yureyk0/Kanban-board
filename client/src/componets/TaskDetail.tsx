@@ -2,6 +2,10 @@ import { Modal } from "./Modal";
 import { Task } from "../types/Task";
 import dayjs from "dayjs";
 import { ActivityLog } from "./ActivityLog";
+import FocusIcon from "../assets/focusIcon.svg?react";
+import DateIcon from "../assets/dateIcon.svg?react";
+import PriceIcon from "../assets/priceIcon.svg?react";
+import EditIcon from "../assets/editIcon.svg?react";
 
 interface TaskDetailkProps {
   isOpen: boolean;
@@ -30,15 +34,22 @@ export const TaskDetail = ({
         <div className="flex flex-col gap-4 p-5 w-7/12">
           <div className="flex justify-between">
             <p className="text-2xl font-bold">{nameTask}</p>
-            <button className="py-1 px-2 border border-solid rounded font-medium">
+            <button className="py-1 px-2 border border-solid rounded font-medium flex gap-2 items-center">
+              <EditIcon />
               Edit Task
             </button>
           </div>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-4">
-              <span className="text-gray-500 mr-8">i Status</span>
-              <span className="text-gray-500 mr-8">i Due date</span>
-              <span className="text-gray-500 mr-8">i Due date</span>
+              <span className="text-gray-500 mr-8 flex gap-2 items-center">
+                <FocusIcon /> Status
+              </span>
+              <span className="text-gray-500 mr-8 flex gap-2 items-center">
+                <DateIcon /> Due date
+              </span>
+              <span className="text-gray-500 mr-8 flex gap-2 items-center">
+                <PriceIcon /> Priority
+              </span>
             </div>
             <div className="flex flex-col gap-4">
               <span className="font-medium">{listName}</span>

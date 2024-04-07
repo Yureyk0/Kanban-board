@@ -10,6 +10,8 @@ import dayjs from "dayjs";
 import { Select } from "./Select";
 import { TaskDetail } from "./TaskDetail";
 
+import DotsIcon from "../assets/dotsIcon.svg?react";
+
 interface TaskCardProps {
   task: Task;
   listNames: {
@@ -66,8 +68,8 @@ export const TaskCard = ({ task, listNames, listId }: TaskCardProps) => {
           {task.nameTask}
         </p>
         <div className="relative">
-          <button onClick={handleOpenDropDown} className="px-2">
-            i
+          <button onClick={handleOpenDropDown}>
+            <DotsIcon />
           </button>
           {isOpenDropDown && (
             <DropDown

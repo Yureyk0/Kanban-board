@@ -3,6 +3,9 @@ import { Board } from "../types/Board";
 import { FormEditBoard } from "./FormEditBoard";
 import { useDeleteBoardMutation } from "../app/services/taskBoardApi";
 
+import DotsIcon from "../assets/dotsIcon.svg?react";
+import DeleteIcon from "../assets/trashIcon.svg?react";
+
 interface NavBoardsItemProps {
   board: Partial<Board>;
   activeBoard: string;
@@ -27,22 +30,25 @@ export const NavBoardsItem = ({
   return (
     <div>
       <div
-        className={`flex justify-between font-medium text-lg px-4 py-2 rounded-r-full cursor-pointer ${
+        className={`flex justify-between items-center font-medium text-lg px-4 py-2 rounded-r-full cursor-pointer ${
           activeBoard === board.id
-            ? "text-white bg-slate-600"
+            ? "text-white bg-slate-500"
             : "text-gray-500 "
         }`}
         key={board.id}
       >
-        <div onClick={() => handleSetActiveBoards(board.id!)}>
+        <div
+          className="w-full"
+          onClick={() => handleSetActiveBoards(board.id!)}
+        >
           {board.nameBoard}
         </div>
-        <div>
+        <div className="flex">
           <button onClick={handleDeleteBoard} className="px-2 text-red-600">
-            D
+            <DeleteIcon />
           </button>
           <button onClick={handleOpenModal} className="px-2">
-            I
+            <DotsIcon />
           </button>
         </div>
       </div>

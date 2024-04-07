@@ -2,13 +2,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { List } from "../../types/List";
 import { Task } from "../../types/Task";
 import { Board } from "../../types/Board";
+import { Audit } from "../../types/Audit";
 
 export const taskBoardApi = createApi({
   reducerPath: "taskBoaedApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_CLIENT_PROD || "http://localhost:3000",
   }),
-  tagTypes: ["Lists", "BoardNames", "OneBoard"],
+  tagTypes: ["Lists", "BoardNames", "OneBoard", "Audit"],
   endpoints: (builder) => ({
     getAllBoards: builder.query<Partial<Board>[], void>({
       query: () => "boards",
@@ -59,17 +60,6 @@ export const taskBoardApi = createApi({
       },
       invalidatesTags: ["BoardNames"],
     }),
-    // getAllLists: builder.query<List[], void>({
-    //   query: () => "lists",
-    //   providesTags: (result) =>
-    //     result
-    //       ? [
-    //           ...result.map(({ id }) => ({ type: "Lists" as const, id })),
-    //           { type: "Lists", id: "LIST" },
-    //         ]
-    //       : [{ type: "Lists", id: "LIST" }],
-    // }),
-
     addList: builder.mutation<List, Partial<List>>({
       query(body) {
         return {
@@ -109,7 +99,7 @@ export const taskBoardApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["OneBoard"],
+      invalidatesTags: ["OneBoard", "Audit"],
     }),
     addTask: builder.mutation<Task, Partial<Task>>({
       query(body) {
@@ -119,7 +109,7 @@ export const taskBoardApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["OneBoard"],
+      invalidatesTags: ["OneBoard", "Audit"],
     }),
     deleteTask: builder.mutation<{ success: boolean; id: string }, string>({
       query(id) {
@@ -128,15 +118,17 @@ export const taskBoardApi = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["OneBoard"],
+      invalidatesTags: ["OneBoard", "Audit"],
     }),
-    getOneTask: builder.query<Task, string>({
-      query: (id) => {
-        return {
-          url: `tasks/${id}`,
-          method: "GET",
-        };
-      },
+    getAllAudit: builder.query<Audit[], void>({
+      query: () => "audit",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Audit" as const, id })),
+              { type: "Audit", id: "AUDIT" },
+            ]
+          : [{ type: "Audit", id: "AUDIT" }],
     }),
   }),
 });
@@ -151,10 +143,10 @@ export const {
   useUpdateTaskMutation,
   useAddTaskMutation,
   useDeleteTaskMutation,
-  useGetOneTaskQuery,
   useGetAllBoardsQuery,
   useGetOneBoardQuery,
   useUpdateBoardMutation,
   useDeleteBoardMutation,
   useAddBoardMutation,
+  useGetAllAuditQuery,
 } = taskBoardApi;

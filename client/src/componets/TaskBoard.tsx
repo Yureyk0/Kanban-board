@@ -3,22 +3,19 @@ import { ColumnTasks } from "./ColumnTasks";
 
 interface TaskBoardProps {
   lists: List[];
+  listNames: {
+    value: string;
+    text: string;
+  }[];
 }
 
-export const TaskBoard = ({ lists }: TaskBoardProps) => {
+export const TaskBoard = ({ lists, listNames }: TaskBoardProps) => {
   if (!lists.length)
     return (
       <div className="flex justify-center items-center text-4xl w-full">
         <p>Create list!</p>
       </div>
     );
-
-  const listNames = lists.map((list) => {
-    return {
-      value: list.id,
-      text: list.nameList,
-    };
-  });
 
   return (
     <div className="flex gap-4 ml-2 mt-2 overflow-x-auto ">

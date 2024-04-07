@@ -9,6 +9,8 @@ import {
 import { FormEditList } from "./FormEditList";
 import { Task } from "../types/Task";
 
+import DotsIcon from "../assets/dotsIcon.svg?react";
+
 interface ColumnTasksProps {
   list: List;
   listNames: {
@@ -60,7 +62,7 @@ export const ColumnTasks = ({ list, listNames }: ColumnTasksProps) => {
         <div className="flex gap-3 relative">
           <span>{tasks.length}</span>
           <button className="px-1" onClick={handleOpenDropDown}>
-            I
+            <DotsIcon />
           </button>
           {isOpenDropDown && (
             <DropDown
