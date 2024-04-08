@@ -9,8 +9,6 @@ import {
 import { FormEditList } from "./FormEditList";
 import { Task } from "../types/Task";
 
-import DotsIcon from "../assets/dotsIcon.svg?react";
-
 export interface ColumnTasksProps {
   list: List;
   listNames: {
