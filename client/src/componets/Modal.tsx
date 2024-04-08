@@ -12,13 +12,15 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+        <div
+          role="dialog"
+          className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none"
+        >
           <div className="p-4 max-w-4xl w-full relative mx-auto my-6 z-50">
-            {/* Content */}
             <div className="relative bg-white  rounded-lg shadow-lg">
-              {/* Header */}
               <div className="flex items-center justify-end bg-gray-500 p-2 border-b border-gray-200 rounded-t-lg">
                 <button
+                  role="button"
                   className="text-gray-100 hover:text-gray-200 focus:outline-none"
                   onClick={handleCloseModal}
                 >
@@ -38,7 +40,6 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
                   </svg>
                 </button>
               </div>
-              {/* Body */}
               <div>{children}</div>
             </div>
           </div>

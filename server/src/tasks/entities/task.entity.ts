@@ -1,5 +1,5 @@
-import { Audit } from 'src/audit/entities/audit.entity';
-import { List } from 'src/lists/entities/list.entity';
+import { Audit } from '../../audit/entities/audit.entity';
+import { List } from '../../lists/entities/list.entity';
 import {
   Column,
   CreateDateColumn,
