@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal } from "./Modal";
 import { useUpdateListMutation } from "../app/services/taskBoardApi";
 import { List } from "../types/List";
+import Button from "./Button";
 
 interface FormEditListProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ export const FormEditList = ({ isOpen, onClose, list }: FormEditListProps) => {
     }
 
     updateList({ id: list.id, nameList: listName });
-    setListName("");
+    setListName(listName);
     setError("");
     setIsButtonDisabled(true);
     onClose();
@@ -58,17 +59,9 @@ export const FormEditList = ({ isOpen, onClose, list }: FormEditListProps) => {
             />
           </div>
           {error && <p className="text-red-500 mb-2">{error}</p>}
-          <button
-            type="submit"
-            className={`px-4 py-2 rounded focus:outline-none ${
-              isButtonDisabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 text-white"
-            }`}
-            disabled={isButtonDisabled}
-          >
-            Save
-          </button>
+          <Button disabled={isButtonDisabled} type="submit" onClick={() => {}}>
+            <span>Save</span>
+          </Button>
         </form>
       </div>
     </Modal>

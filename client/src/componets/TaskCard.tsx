@@ -10,9 +10,7 @@ import dayjs from "dayjs";
 import { Select } from "./Select";
 import { TaskDetail } from "./TaskDetail";
 
-import DotsIcon from "../assets/dotsIcon.svg?react";
-
-interface TaskCardProps {
+export interface TaskCardProps {
   task: Task;
   listNames: {
     value: string;
@@ -68,16 +66,13 @@ export const TaskCard = ({ task, listNames, listId }: TaskCardProps) => {
           {task.nameTask}
         </p>
         <div className="relative">
-          <button onClick={handleOpenDropDown}>
-            <DotsIcon />
-          </button>
-          {isOpenDropDown && (
-            <DropDown
-              handleCloseDropDown={handleCloseDropDown}
-              handleDelete={handleDeleteTask}
-              handleEdit={handleClickEdit}
-            />
-          )}
+          <DropDown
+            handleCloseDropDown={handleCloseDropDown}
+            handleDelete={handleDeleteTask}
+            handleEdit={handleClickEdit}
+            handleOpenDropDown={handleOpenDropDown}
+            isOpen={isOpenDropDown}
+          />
         </div>
       </div>
       <div onClick={handleOpenModalDetail} className="cursor-pointer">

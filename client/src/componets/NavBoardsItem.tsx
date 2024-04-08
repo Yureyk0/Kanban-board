@@ -3,7 +3,7 @@ import { Board } from "../types/Board";
 import { FormEditBoard } from "./FormEditBoard";
 import { useDeleteBoardMutation } from "../app/services/taskBoardApi";
 
-import DotsIcon from "../assets/dotsIcon.svg?react";
+import PenIcon from "../assets/penIcon.svg?react";
 import DeleteIcon from "../assets/trashIcon.svg?react";
 
 interface NavBoardsItemProps {
@@ -48,7 +48,7 @@ export const NavBoardsItem = ({
             <DeleteIcon />
           </button>
           <button onClick={handleOpenModal} className="px-2">
-            <DotsIcon />
+            <PenIcon />
           </button>
         </div>
       </div>

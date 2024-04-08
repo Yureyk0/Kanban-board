@@ -11,7 +11,7 @@ import { Task } from "../types/Task";
 
 import DotsIcon from "../assets/dotsIcon.svg?react";
 
-interface ColumnTasksProps {
+export interface ColumnTasksProps {
   list: List;
   listNames: {
     value: string;
@@ -61,17 +61,15 @@ export const ColumnTasks = ({ list, listNames }: ColumnTasksProps) => {
         <p className="py-1 font-medium">{nameList}</p>
         <div className="flex gap-3 relative">
           <span>{tasks.length}</span>
-          <button className="px-1" onClick={handleOpenDropDown}>
-            <DotsIcon />
-          </button>
-          {isOpenDropDown && (
-            <DropDown
-              handleCloseDropDown={handleCloseDropDown}
-              handleDelete={handleDeleteList}
-              handleEdit={handleEditList}
-              handleAddTask={handleAddTask}
-            />
-          )}
+
+          <DropDown
+            handleCloseDropDown={handleCloseDropDown}
+            handleDelete={handleDeleteList}
+            handleEdit={handleEditList}
+            handleAddTask={handleAddTask}
+            handleOpenDropDown={handleOpenDropDown}
+            isOpen={isOpenDropDown}
+          />
         </div>
       </div>
       <button
@@ -90,7 +88,7 @@ export const ColumnTasks = ({ list, listNames }: ColumnTasksProps) => {
           />
         ))
       ) : (
-        <div>Task list empty</div>
+        <div className=" text-center p-4">Task list empty</div>
       )}
       <FormEditList
         isOpen={isModalEditOpen}

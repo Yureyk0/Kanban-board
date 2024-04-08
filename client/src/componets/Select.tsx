@@ -1,4 +1,4 @@
-interface SelectProps {
+export interface SelectProps {
   setValue: (
     event: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
