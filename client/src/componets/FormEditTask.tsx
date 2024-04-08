@@ -6,8 +6,9 @@ import { Modal } from "./Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import { useUpdateTaskMutation } from "../app/services/taskBoardApi";
 import { Select } from "./Select";
+import Button from "./Button";
 
-interface FormEditTaskProps {
+export interface FormEditTaskProps {
   isOpen: boolean;
   onClose: () => void;
   task: Task;
@@ -119,13 +120,13 @@ export const FormEditTask = ({ isOpen, onClose, task }: FormEditTaskProps) => {
             />
           </div>
           <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 "
+            <Button
               disabled={updateTask.nameTask.trim() === ""}
+              type="submit"
+              onClick={() => {}}
             >
-              Edit Task
-            </button>
+              <span>Edit Task</span>
+            </Button>
           </div>
         </form>
       </div>

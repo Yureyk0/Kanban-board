@@ -6,6 +6,9 @@ import FocusIcon from "../assets/focusIcon.svg?react";
 import DateIcon from "../assets/dateIcon.svg?react";
 import PriceIcon from "../assets/priceIcon.svg?react";
 import EditIcon from "../assets/editIcon.svg?react";
+import Button from "./Button";
+import { FormEditTask } from "./FormEditTask";
+import { useState } from "react";
 
 interface TaskDetailkProps {
   isOpen: boolean;
@@ -25,19 +28,35 @@ export const TaskDetail = ({
   listNames,
   listId,
 }: TaskDetailkProps) => {
+  const [isModalOpenEdit, setIsModalOpenEdit] = useState<boolean>(false);
+
   const { nameTask, descriptionTask, dueDate, priority, audit } = task;
 
   const listName = listNames.find((list) => list.value === listId)?.text;
+
+  const handleOpenModalEdit = () => setIsModalOpenEdit(true);
+  const handleCloseModalEdit = () => setIsModalOpenEdit(false);
+
+  const handleOpenTaskForm = () => {
+    handleOpenModalEdit();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex max-h-[500px] min-h-[400px]">
         <div className="flex flex-col gap-4 p-5 w-7/12">
           <div className="flex justify-between">
             <p className="text-2xl font-bold">{nameTask}</p>
-            <button className="py-1 px-2 border border-solid rounded font-medium flex gap-2 items-center">
-              <EditIcon />
-              Edit Task
-            </button>
+            <Button
+              type="outline"
+              className="flex gap-2 items-center"
+              onClick={handleOpenTaskForm}
+            >
+              <div className="flex gap-2 items-center">
+                <EditIcon />
+                Edit Task
+              </div>
+            </Button>
           </div>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-4">
@@ -67,6 +86,11 @@ export const TaskDetail = ({
           <ActivityLog audit={audit} listNames={listNames} />
         </div>
       </div>
+      <FormEditTask
+        isOpen={isModalOpenEdit}
+        onClose={handleCloseModalEdit}
+        task={task}
+      />
     </Modal>
   );
 };
