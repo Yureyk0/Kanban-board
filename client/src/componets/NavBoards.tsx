@@ -3,7 +3,7 @@ import { Board } from "../types/Board";
 import { NavBoardsItem } from "./NavBoardsItem";
 import { useAddBoardMutation } from "../app/services/taskBoardApi";
 
-interface NavBoardsProps {
+export interface NavBoardsProps {
   boards: Partial<Board>[];
   handleSetActiveBoards: (id: string) => void;
   activeBoard: string;

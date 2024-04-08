@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal } from "./Modal";
 import { Board } from "../types/Board";
 import { useUpdateBoardMutation } from "../app/services/taskBoardApi";
+import Button from "./Button";
 
 interface FormEditBoardProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ export const FormEditBoard = ({
       return;
     }
     updateBoard({ id: board.id, nameBoard: boardName });
-    setBoardName("");
+    setBoardName(boardName);
     setError("");
     setIsButtonDisabled(true);
     onClose();
@@ -61,7 +62,7 @@ export const FormEditBoard = ({
             />
           </div>
           {error && <p className="text-red-500 mb-2">{error}</p>}
-          <button
+          {/* <button
             type="submit"
             className={`px-4 py-2 rounded focus:outline-none ${
               isButtonDisabled
@@ -71,7 +72,10 @@ export const FormEditBoard = ({
             disabled={isButtonDisabled}
           >
             Save
-          </button>
+          </button> */}
+          <Button disabled={isButtonDisabled} type="submit" onClick={() => {}}>
+            <span>Save</span>
+          </Button>
         </form>
       </div>
     </Modal>
