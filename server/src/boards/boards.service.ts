@@ -32,8 +32,8 @@ export class BoardsService {
     }));
   }
 
-  findOne(id: string) {
-    return this.boardRepository.findOne({
+  async findOne(id: string) {
+    return await this.boardRepository.findOne({
       where: { id },
       order: { lists: { orderIndex: 'ASC' } },
     });
@@ -52,5 +52,6 @@ export class BoardsService {
       throw new NotFoundException('List not found');
     }
     this.logger.log(`Deleted board with ID ${id}`);
+    return result;
   }
 }
